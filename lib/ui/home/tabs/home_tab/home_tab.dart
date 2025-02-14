@@ -20,6 +20,7 @@ class _HomeTabState extends State<HomeTab> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     List<String> eventsNameList = [
+      AppLocalizations.of(context)!.all,
       AppLocalizations.of(context)!.sport,
       AppLocalizations.of(context)!.birthday,
       AppLocalizations.of(context)!.meeting,
@@ -126,6 +127,9 @@ class _HomeTabState extends State<HomeTab> {
                         isScrollable: true,
                         tabs: eventsNameList.map((eventName) {
                           return TabEventWidget(
+                              backgroundColor: AppColors.white,
+                              textSelectedStyle: AppStyles.medium16Primary,
+                              textUnSelectedStyle: AppStyles.medium16White,
                               eventName: eventName,
                               isSelected: eventsNameList.indexOf(eventName) ==
                                       selectedIndex

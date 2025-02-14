@@ -13,7 +13,6 @@ import 'bottom_sheet/language_botom_sheet.dart';
 import 'bottom_sheet/theme_bottom_sheet.dart';
 
 class ProfileTab extends StatefulWidget {
-  static const String routeName = "Profile_Tab";
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();

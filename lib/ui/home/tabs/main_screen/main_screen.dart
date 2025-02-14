@@ -1,3 +1,4 @@
+import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/add_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -64,10 +65,12 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           // todo: add event
           // todo: navigator to add event screen
+          Navigator.of(context).pushNamed(AddEvent.routeName);
         },
         child: Icon(
           Icons.add,
           size: 42,
+          color: AppColors.white,
         ),
       ),
       body: tabs[selectedIndex],
