@@ -1,17 +1,18 @@
+import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
+import 'package:evnt_planning_app/ui/auth/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-import '../../providers/app_language_provider.dart';
-import '../../providers/app_theme_provider.dart';
-import '../../utils/app_colors.dart';
-import '../../utils/app_styles.dart';
-import '../../utils/assets_manager.dart';
+import '../../../../providers/app_language_provider.dart';
+import '../../../../providers/app_theme_provider.dart';
+import '../../../../utils/app_colors.dart';
+import '../../../../utils/app_styles.dart';
+import '../../../../utils/assets_manager.dart';
 import 'bottom_sheet/language_botom_sheet.dart';
 import 'bottom_sheet/theme_bottom_sheet.dart';
 
 class ProfileTab extends StatefulWidget {
-  static const String routeName = "Profile_Tab";
 
   @override
   State<ProfileTab> createState() => _ProfileTabState();
@@ -131,6 +132,22 @@ class _ProfileTabState extends State<ProfileTab> {
                 ),
               ),
             ),
+            Spacer(),
+            CustomElevatedButton(
+                backgroundColor: AppColors.red,
+                prefixIconButton: Icon(
+                  Icons.logout,
+                  color: AppColors.white,
+                ),
+                text: "Logout",
+                onTap: () {
+                  //todo: navigation to login screen
+                  Navigator.of(context)
+                      .pushReplacementNamed(LoginScreen.routeName);
+                }),
+            SizedBox(
+              height: screenSize.height * .002,
+            )
           ],
         ),
       ),

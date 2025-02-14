@@ -1,8 +1,13 @@
+import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/add_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../utils/app_colors.dart';
-import '../../utils/assets_manager.dart';
+import '../../../../utils/app_colors.dart';
+import '../../../../utils/assets_manager.dart';
+import '../favorite_tab/favorite_tab.dart';
+import '../home_tab/home_tab.dart';
+import '../map_tab/map_tab.dart';
+import '../profile_tab/profile.dart';
 
 class MainScreen extends StatefulWidget {
   static const String routeName = "Main_Screen";
@@ -13,7 +18,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int selectedIndex = 0;
-
+  List<Widget> tabs = [HomeTab(), MapTab(), FavoriteTab(), ProfileTab()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +49,7 @@ class _MainScreenState extends State<MainScreen> {
                     selectedIconName: AssetsManager.mapSelected),
                 buildBottomNavItem(
                     index: 2,
-                    lable: AppLocalizations.of(context)!.love,
+                    lable: AppLocalizations.of(context)!.favorite,
                     iconName: AssetsManager.loveUnSelected,
                     selectedIconName: AssetsManager.loveSelected),
                 buildBottomNavItem(
@@ -60,12 +65,15 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           // todo: add event
           // todo: navigator to add event screen
+          Navigator.of(context).pushNamed(AddEvent.routeName);
         },
         child: Icon(
           Icons.add,
           size: 42,
+          color: AppColors.white,
         ),
       ),
+      body: tabs[selectedIndex],
     );
   }
 
