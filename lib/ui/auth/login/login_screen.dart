@@ -2,8 +2,8 @@ import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
 import 'package:evnt_planning_app/ui/auth/register/register_screen.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
+import 'package:evnt_planning_app/utils/app_images.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
-import 'package:evnt_planning_app/utils/assets_manager.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -25,7 +25,7 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: height * .02,
               ),
-              Image.asset(AssetsManager.logo),
+              Image.asset(AppImages.logo),
               CustomTextField(
                   hintText: AppLocalizations.of(context)!.email,
                   prefixIcon: Icon(Icons.email)),
@@ -92,7 +92,7 @@ class LoginScreen extends StatelessWidget {
               ),
               CustomElevatedButton(
                   backgroundColor: AppColors.transparentColor,
-                  prefixIconButton: Image.asset(AssetsManager.googleLogo),
+                  prefixIconButton: Image.asset(AppImages.googleLogo),
                   text: AppLocalizations.of(context)!.login_with_google,
                   onTap: () {
                     // todo: authentication with google

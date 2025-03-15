@@ -1,13 +1,18 @@
 import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
+import 'package:evnt_planning_app/firebase/firebase_utils.dart';
+import 'package:evnt_planning_app/model/event.dart';
+import 'package:evnt_planning_app/providers/event_list_provider.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/custom_row_date_time.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/tab_event_widget.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
+import 'package:evnt_planning_app/utils/app_images.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
-import 'package:evnt_planning_app/utils/assets_manager.dart';
+import 'package:evnt_planning_app/utils/flutter_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
   static const String routeName = "Add_Even";
@@ -25,9 +30,13 @@ class _AddEventState extends State<AddEvent> {
   String formatedDate = ""; // date
   TimeOfDay? selectedTime;
   String formatedTime = ""; // time
+  String selectedEvent = "";
+  String selectedImage = "";
+  late EventListProvider eventListProvider; // global variable
 
   @override
   Widget build(BuildContext context) {
+    eventListProvider = Provider.of<EventListProvider>(context);
     List<String> eventsNameList = [
       AppLocalizations.of(context)!.sport,
       AppLocalizations.of(context)!.birthday,
@@ -40,16 +49,18 @@ class _AddEventState extends State<AddEvent> {
       AppLocalizations.of(context)!.eating,
     ];
     List<String> imageSelectedNameList = [
-      AssetsManager.sport,
-      AssetsManager.birthday,
-      AssetsManager.meeting,
-      AssetsManager.gaming,
-      AssetsManager.workshop,
-      AssetsManager.bookClub,
-      AssetsManager.exhibition,
-      AssetsManager.holiday,
-      AssetsManager.eating,
+      AppImages.sport,
+      AppImages.birthday,
+      AppImages.meeting,
+      AppImages.gaming,
+      AppImages.workshop,
+      AppImages.bookClub,
+      AppImages.exhibition,
+      AppImages.holiday,
+      AppImages.eating,
     ];
+    selectedImage = imageSelectedNameList[selectedIndex];
+    selectedEvent = eventsNameList[selectedIndex];
 
     // Map<String, String> mapEventList = {
     //   AppLocalizations.of(context)!.sport: AssetsManager.sport,
@@ -179,7 +190,7 @@ class _AddEventState extends State<AddEvent> {
                     text: AppLocalizations.of(context)!.event_date,
                     textButton: selectedDate == null
                         ? AppLocalizations.of(context)!.choose_date
-                        : formatedDate
+                        : DateFormat("dd/MMM/yyyy").format(selectedDate!)
                     // "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
                     ),
                 CustomRowDateTime(
@@ -210,7 +221,7 @@ class _AddEventState extends State<AddEvent> {
                         decoration: BoxDecoration(
                             color: AppColors.primaryLight,
                             borderRadius: BorderRadius.circular(8)),
-                        child: Image.asset(AssetsManager.gpsIcon),
+                        child: Image.asset(AppImages.gpsIcon),
                       ),
                       SizedBox(
                         width: width * .02,
@@ -244,6 +255,21 @@ class _AddEventState extends State<AddEvent> {
   void addEvent() {
     if (formKey.currentState?.validate() == true) {
       // todo : Add event
+      Event event = Event(
+          eventName: selectedEvent,
+          title: titleController.text,
+          description: descriptionController.text,
+          date: selectedDate!,
+          time: formatedTime,
+          image: selectedImage);
+      FirebaseUtils.addEventToFireStore(event)
+          .timeout(Duration(milliseconds: 500), onTimeout: () {
+        ToastMessage.toastMsg(
+            "Event added Successfully", Colors.green, AppColors.white);
+        print("Event added Successfully");
+        eventListProvider.getAllEvents();
+        Navigator.pop(context);
+      });
     }
   }
 

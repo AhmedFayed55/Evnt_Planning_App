@@ -1,4 +1,4 @@
-class AssetsManager {
+class AppImages {
   static const String splashScreenLight = "assets/images/splash_light.png";
   static const String splashScreenDark = "assets/images/splash_dark.png";
   static const String homeSelected = "assets/images/home_icon_selected.png";

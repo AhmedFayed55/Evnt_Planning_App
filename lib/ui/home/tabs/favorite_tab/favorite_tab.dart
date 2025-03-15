@@ -2,8 +2,7 @@ import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
 import 'package:flutter/material.dart';
-
-import '../home_tab/event_item_widget.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FavoriteTab extends StatelessWidget {
   @override
@@ -17,7 +16,7 @@ class FavoriteTab extends StatelessWidget {
         child: Column(
           children: [
             CustomTextField(
-              hintText: "Search for Event",
+              hintText: AppLocalizations.of(context)!.search_for_event,
               hintStyle: AppStyles.bold14Primary,
               prefixIcon: Icon(
                 Icons.search,
@@ -27,7 +26,7 @@ class FavoriteTab extends StatelessWidget {
               cursorColor: AppColors.primaryLight,
             ),
             Expanded(child: ListView.builder(itemBuilder: (context, index) {
-              return EventItemWidget();
+              return Container();
             }))
           ],
         ),
