@@ -7,8 +7,8 @@ import 'package:provider/provider.dart';
 import '../../../../providers/app_language_provider.dart';
 import '../../../../providers/app_theme_provider.dart';
 import '../../../../utils/app_colors.dart';
+import '../../../../utils/app_images.dart';
 import '../../../../utils/app_styles.dart';
-import '../../../../utils/assets_manager.dart';
 import 'bottom_sheet/language_botom_sheet.dart';
 import 'bottom_sheet/theme_bottom_sheet.dart';
 
@@ -32,7 +32,7 @@ class _ProfileTabState extends State<ProfileTab> {
             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(65))),
         title: Row(
           children: [
-            Image.asset(AssetsManager.profile_Tab_App_Bar),
+            Image.asset(AppImages.profile_Tab_App_Bar),
             SizedBox(
               width: screenSize.width * .05,
             ),
@@ -139,7 +139,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   Icons.logout,
                   color: AppColors.white,
                 ),
-                text: "Logout",
+                text: AppLocalizations.of(context)!.logout,
                 onTap: () {
                   //todo: navigation to login screen
                   Navigator.of(context)
