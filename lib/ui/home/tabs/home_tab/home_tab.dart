@@ -1,9 +1,11 @@
+import 'package:evnt_planning_app/providers/event_list_provider.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/tab_event_widget.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
+import 'package:evnt_planning_app/utils/app_images.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
-import 'package:evnt_planning_app/utils/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import 'event_item_widget.dart';
 
@@ -13,24 +15,17 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    var eventListProvider = Provider.of<EventListProvider>(context);
+    eventListProvider.getEventsNameList(context);
+    if (eventListProvider.eventsList.isEmpty) {
+      eventListProvider.getAllEvents();
+    }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    List<String> eventsNameList = [
-      AppLocalizations.of(context)!.all,
-      AppLocalizations.of(context)!.sport,
-      AppLocalizations.of(context)!.birthday,
-      AppLocalizations.of(context)!.meeting,
-      AppLocalizations.of(context)!.gaming,
-      AppLocalizations.of(context)!.workshop,
-      AppLocalizations.of(context)!.book_club,
-      AppLocalizations.of(context)!.exhibition,
-      AppLocalizations.of(context)!.holiday,
-      AppLocalizations.of(context)!.eating,
-    ];
+
     // List<String> stringEventsName = [
     //   "Sport",
     //   "Birthday",
@@ -105,7 +100,7 @@ class _HomeTabState extends State<HomeTab> {
               children: [
                 Row(
                   children: [
-                    Image.asset(AssetsManager.mapUnSelected),
+                    Image.asset(AppImages.mapUnSelected),
                     Text(
                       AppLocalizations.of(context)!.cairo_egypt,
                       style: AppStyles.medium14White,
@@ -113,11 +108,10 @@ class _HomeTabState extends State<HomeTab> {
                   ],
                 ),
                 DefaultTabController(
-                    length: eventsNameList.length,
+                    length: eventListProvider.eventsNameList.length,
                     child: TabBar(
                         onTap: (index) {
-                          selectedIndex = index;
-                          setState(() {});
+                          eventListProvider.changeSelectedIndex(index);
                         },
                         labelPadding: EdgeInsets.symmetric(
                             horizontal: width * .01, vertical: height * .02),
@@ -125,14 +119,15 @@ class _HomeTabState extends State<HomeTab> {
                         indicatorColor: AppColors.transparentColor,
                         dividerColor: AppColors.transparentColor,
                         isScrollable: true,
-                        tabs: eventsNameList.map((eventName) {
+                        tabs: eventListProvider.eventsNameList.map((eventName) {
                           return TabEventWidget(
                               backgroundColor: AppColors.white,
                               textSelectedStyle: AppStyles.medium16Primary,
                               textUnSelectedStyle: AppStyles.medium16White,
                               eventName: eventName,
-                              isSelected: eventsNameList.indexOf(eventName) ==
-                                      selectedIndex
+                              isSelected: eventListProvider.eventsNameList
+                                          .indexOf(eventName) ==
+                                      eventListProvider.selectedIndex
                                   ? true
                                   : false);
                         }).toList()))
@@ -140,11 +135,17 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
           Expanded(
-              child: ListView.builder(
-                  itemCount: 20,
-                  itemBuilder: (context, index) {
-                    return EventItemWidget();
-                  }))
+              child: eventListProvider.filteredList.isEmpty
+                  ? Center(
+                      child: Text("No Events Yet"),
+                    )
+                  : ListView.builder(
+                      itemCount: eventListProvider.filteredList.length,
+                      itemBuilder: (context, index) {
+                        return EventItemWidget(
+                          event: eventListProvider.filteredList[index],
+                        );
+                      }))
         ],
       ),
     );

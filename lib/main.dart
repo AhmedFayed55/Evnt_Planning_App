@@ -1,20 +1,30 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evnt_planning_app/providers/app_language_provider.dart';
 import 'package:evnt_planning_app/providers/app_theme_provider.dart';
+import 'package:evnt_planning_app/providers/event_list_provider.dart';
 import 'package:evnt_planning_app/ui/auth/login/login_screen.dart';
 import 'package:evnt_planning_app/ui/auth/register/register_screen.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/add_event.dart';
 import 'package:evnt_planning_app/ui/home/tabs/main_screen/main_screen.dart';
+import 'package:evnt_planning_app/utils/app_routes.dart';
 import 'package:evnt_planning_app/utils/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseFirestore.instance.disableNetwork(); // todo: working offline
   runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(
-      create: (context) => AppLanguageProvider(),
-    ),
-    ChangeNotifierProvider(create: (context) => AppThemeProvider())
+    ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
+    ChangeNotifierProvider(create: (context) => AppThemeProvider()),
+    ChangeNotifierProvider(create: (context) => EventListProvider()),
   ], child: MyApp()));
 }
 
@@ -29,12 +39,12 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      initialRoute: MainScreen.routeName,
+      initialRoute: AppRoutes.mainScreenRoute,
       routes: {
-        MainScreen.routeName: (context) => MainScreen(),
-        LoginScreen.routeName: (context) => LoginScreen(),
-        RegisterScreen.routeName: (context) => RegisterScreen(),
-        AddEvent.routeName: (context) => AddEvent()
+        AppRoutes.mainScreenRoute: (context) => MainScreen(),
+        AppRoutes.loginScreenRoute: (context) => LoginScreen(),
+        AppRoutes.registerScreenRoute: (context) => RegisterScreen(),
+        AppRoutes.addEventRoute: (context) => AddEvent()
       },
       locale: Locale(languageProvider.appLanguage),
       theme: AppTheme.lightTheme,

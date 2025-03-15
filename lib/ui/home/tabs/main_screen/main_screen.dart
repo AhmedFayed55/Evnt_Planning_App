@@ -1,16 +1,15 @@
-import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/add_event.dart';
+import 'package:evnt_planning_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../utils/app_colors.dart';
-import '../../../../utils/assets_manager.dart';
+import '../../../../utils/app_images.dart';
 import '../favorite_tab/favorite_tab.dart';
 import '../home_tab/home_tab.dart';
 import '../map_tab/map_tab.dart';
 import '../profile_tab/profile.dart';
 
 class MainScreen extends StatefulWidget {
-  static const String routeName = "Main_Screen";
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -40,23 +39,23 @@ class _MainScreenState extends State<MainScreen> {
                 buildBottomNavItem(
                     index: 0,
                     lable: AppLocalizations.of(context)!.home,
-                    iconName: AssetsManager.homeUnSelected,
-                    selectedIconName: AssetsManager.homeSelected),
+                    iconName: AppImages.homeUnSelected,
+                    selectedIconName: AppImages.homeSelected),
                 buildBottomNavItem(
                     index: 1,
                     lable: AppLocalizations.of(context)!.map,
-                    iconName: AssetsManager.mapUnSelected,
-                    selectedIconName: AssetsManager.mapSelected),
+                    iconName: AppImages.mapUnSelected,
+                    selectedIconName: AppImages.mapSelected),
                 buildBottomNavItem(
                     index: 2,
                     lable: AppLocalizations.of(context)!.favorite,
-                    iconName: AssetsManager.loveUnSelected,
-                    selectedIconName: AssetsManager.loveSelected),
+                    iconName: AppImages.loveUnSelected,
+                    selectedIconName: AppImages.loveSelected),
                 buildBottomNavItem(
                     index: 3,
                     lable: AppLocalizations.of(context)!.profile,
-                    iconName: AssetsManager.profileUnSelected,
-                    selectedIconName: AssetsManager.profileSelected)
+                    iconName: AppImages.profileUnSelected,
+                    selectedIconName: AppImages.profileSelected)
               ]),
         ),
       ),
@@ -65,7 +64,7 @@ class _MainScreenState extends State<MainScreen> {
         onPressed: () {
           // todo: add event
           // todo: navigator to add event screen
-          Navigator.of(context).pushNamed(AddEvent.routeName);
+          Navigator.of(context).pushNamed(AppRoutes.addEventRoute);
         },
         child: Icon(
           Icons.add,
