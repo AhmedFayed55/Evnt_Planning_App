@@ -1,8 +1,10 @@
 import 'package:evnt_planning_app/model/event.dart';
+import 'package:evnt_planning_app/providers/event_list_provider.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventItemWidget extends StatelessWidget {
   Event event;
@@ -11,6 +13,7 @@ class EventItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var eventListProvider = Provider.of<EventListProvider>(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Container(
@@ -78,9 +81,17 @@ class EventItemWidget extends StatelessWidget {
                   event.title,
                   style: AppStyles.bold18Black,
                 ),
-                Icon(
-                  Icons.favorite_border_rounded,
-                  color: AppColors.primaryLight,
+                InkWell(
+                  onTap: () {
+                    // todo: update favorite
+                    eventListProvider.updateFavoriteEvent(event);
+                  },
+                  child: Icon(
+                    event.isFavorite == true
+                        ? Icons.favorite
+                        : Icons.favorite_border_rounded,
+                    color: AppColors.primaryLight,
+                  ),
                 )
               ],
             ),

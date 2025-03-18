@@ -1,10 +1,10 @@
+import 'package:evnt_planning_app/ui/home/tabs/favorite_tab/favorite_tab.dart';
 import 'package:evnt_planning_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_images.dart';
-import '../favorite_tab/favorite_tab.dart';
 import '../home_tab/home_tab.dart';
 import '../map_tab/map_tab.dart';
 import '../profile_tab/profile.dart';

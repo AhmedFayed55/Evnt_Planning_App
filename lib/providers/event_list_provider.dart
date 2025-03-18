@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evnt_planning_app/utils/app_colors.dart';
+import 'package:evnt_planning_app/utils/flutter_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -39,6 +41,7 @@ class EventListProvider extends ChangeNotifier {
   }
 
   List<Event> filteredList = [];
+  List<Event> favoriteEventsList = [];
 
   void getAllEvents() async {
     QuerySnapshot<Event> querySnapshot =
@@ -87,6 +90,34 @@ class EventListProvider extends ChangeNotifier {
             .get();
     //todo: get all events
     filteredList = querySnapshot.docs.map((doc) {
+      return doc.data();
+    }).toList();
+    notifyListeners();
+  }
+
+  void updateFavoriteEvent(Event event) {
+    FirebaseUtils.getEventCollection()
+        .doc(event.id)
+        .update({"isFavorite": !event.isFavorite}).timeout(
+            Duration(milliseconds: 500), onTimeout: () {
+      print("Event updated Successfully");
+      ToastMessage.toastMsg(
+          "Event Updated Successfully", Colors.green, AppColors.white);
+      selectedIndex == 0 ? getAllEvents() : getFilteredEvents();
+      getFavoriteEvents();
+    });
+    notifyListeners();
+  }
+
+  void getFavoriteEvents() async {
+    // todo :  sort and filter by isFavorite then get in one line
+    QuerySnapshot<Event> querySnapshot =
+        await FirebaseUtils.getEventCollection()
+            .orderBy("date")
+            .where("isFavorite", isEqualTo: true)
+            .get();
+    favoriteEventsList = querySnapshot.docs.map((doc) {
+      // convert a list of QueryDocumentSnapshot<Event> to list of events
       return doc.data();
     }).toList();
     notifyListeners();

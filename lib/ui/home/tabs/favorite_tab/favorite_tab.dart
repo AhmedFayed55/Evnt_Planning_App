@@ -1,33 +1,51 @@
 import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
+import 'package:evnt_planning_app/providers/event_list_provider.dart';
+import 'package:evnt_planning_app/ui/home/tabs/home_tab/event_item_widget.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
+import 'package:evnt_planning_app/utils/app_images.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 class FavoriteTab extends StatelessWidget {
+  const FavoriteTab({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    return Scaffold(
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: width * .04),
+    var height = MediaQuery.of(context).size.height;
+    var eventListProvider = Provider.of<EventListProvider>(context);
+    if (eventListProvider.favoriteEventsList.isEmpty) {
+      eventListProvider.getFavoriteEvents();
+    }
+    return SafeArea(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: width * .032),
         child: Column(
+          spacing: height * .005,
           children: [
             CustomTextField(
-              hintText: AppLocalizations.of(context)!.search_for_event,
-              hintStyle: AppStyles.bold14Primary,
-              prefixIcon: Icon(
-                Icons.search,
-                color: AppColors.primaryLight,
-              ),
+              hintStyle: AppStyles.bold16Primary,
+              style: AppStyles.bold16Primary,
               borderColor: AppColors.primaryLight,
-              cursorColor: AppColors.primaryLight,
+              hintText: AppLocalizations.of(context)!.search_for_event,
+              prefixIcon: Image.asset(AppImages.search),
             ),
-            Expanded(child: ListView.builder(itemBuilder: (context, index) {
-              return Container();
-            }))
+            Expanded(
+              child: eventListProvider.favoriteEventsList.isEmpty
+                  ? Center(
+                      child:
+                          Text(AppLocalizations.of(context)!.search_for_event),
+                    )
+                  : ListView.builder(
+                      itemCount: eventListProvider.favoriteEventsList.length,
+                      itemBuilder: (context, index) {
+                        return EventItemWidget(
+                            event: eventListProvider.favoriteEventsList[index]);
+                      },
+                    ),
+            )
           ],
         ),
       ),

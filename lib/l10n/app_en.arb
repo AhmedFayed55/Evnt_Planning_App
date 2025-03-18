@@ -54,5 +54,6 @@
   "please_enter_a_title": "Please Enter A Title",
   "please_enter_a_description": "Please Enter A Description",
   "please_select_a_date": "Please Select A Date",
-  "please_select_a_time": "Please Select A Time"
+  "please_select_a_time": "Please Select A Time",
+  "no_favorite_events_yet": "No Favorite Events Yet"
 }
