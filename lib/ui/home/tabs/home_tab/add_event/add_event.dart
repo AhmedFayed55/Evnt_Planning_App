@@ -190,7 +190,7 @@ class _AddEventState extends State<AddEvent> {
                     text: AppLocalizations.of(context)!.event_date,
                     textButton: selectedDate == null
                         ? AppLocalizations.of(context)!.choose_date
-                        : DateFormat("dd/MMM/yyyy").format(selectedDate!)
+                        : DateFormat("dd/MM/yyyy").format(selectedDate!)
                     // "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}"
                     ),
                 CustomRowDateTime(

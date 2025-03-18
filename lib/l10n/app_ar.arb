@@ -54,5 +54,6 @@
   "please_enter_a_title": "الرجاء ادخال العنوان",
   "please_enter_a_description": "الرجاء ادخال الوصف",
   "please_select_a_date": "الرجاء اختيار التاريخ",
-  "please_select_a_time": "الرحاء اختيار الوقت"
+  "please_select_a_time": "الرحاء اختيار الوقت",
+  "no_favorite_events_yet": "لا يوجد أحداث مفضلة حتى الآن"
 }

@@ -1,5 +1,6 @@
 import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
-import 'package:evnt_planning_app/ui/auth/login/login_screen.dart';
+import 'package:evnt_planning_app/custom_widgets/dialoug_utils.dart';
+import 'package:evnt_planning_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
@@ -140,11 +141,7 @@ class _ProfileTabState extends State<ProfileTab> {
                   color: AppColors.white,
                 ),
                 text: AppLocalizations.of(context)!.logout,
-                onTap: () {
-                  //todo: navigation to login screen
-                  Navigator.of(context)
-                      .pushReplacementNamed(LoginScreen.routeName);
-                }),
+                onTap: onLogoutClick),
             SizedBox(
               height: screenSize.height * .002,
             )
@@ -167,6 +164,21 @@ class _ProfileTabState extends State<ProfileTab> {
         context: context,
         builder: (context) {
           return ThemeBottomSheet();
+        });
+  }
+
+  void onLogoutClick() {
+    DialogueUtils.showMessage(
+        context: context,
+        message: "Log out of your account?",
+        posActionName: "Cancel",
+        ngeActionName: "LOG OUT",
+        posAction: () {
+          Navigator.of(context).pop();
+        },
+        ngeAction: () {
+          Navigator.of(context).pushNamedAndRemoveUntil(
+              AppRoutes.loginScreenRoute, (route) => false);
         });
   }
 }
