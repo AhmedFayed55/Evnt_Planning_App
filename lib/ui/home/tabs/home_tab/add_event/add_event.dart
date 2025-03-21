@@ -3,6 +3,7 @@ import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
 import 'package:evnt_planning_app/firebase/firebase_utils.dart';
 import 'package:evnt_planning_app/model/event.dart';
 import 'package:evnt_planning_app/providers/event_list_provider.dart';
+import 'package:evnt_planning_app/providers/user_provider.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/custom_row_date_time.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/tab_event_widget.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
@@ -15,7 +16,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddEvent extends StatefulWidget {
-  static const String routeName = "Add_Even";
 
   @override
   State<AddEvent> createState() => _AddEventState();
@@ -33,10 +33,12 @@ class _AddEventState extends State<AddEvent> {
   String selectedEvent = "";
   String selectedImage = "";
   late EventListProvider eventListProvider; // global variable
+  late UserProvider userProvider;
 
   @override
   Widget build(BuildContext context) {
     eventListProvider = Provider.of<EventListProvider>(context);
+    userProvider = Provider.of<UserProvider>(context);
     List<String> eventsNameList = [
       AppLocalizations.of(context)!.sport,
       AppLocalizations.of(context)!.birthday,
@@ -262,14 +264,15 @@ class _AddEventState extends State<AddEvent> {
           date: selectedDate!,
           time: formatedTime,
           image: selectedImage);
-      FirebaseUtils.addEventToFireStore(event)
-          .timeout(Duration(milliseconds: 500), onTimeout: () {
+      FirebaseUtils.addEventToFireStore(event, userProvider.currentUser!.id)
+          .then((value) {
+        print("Event added Successfully");
         ToastMessage.toastMsg(
             "Event added Successfully", Colors.green, AppColors.white);
-        print("Event added Successfully");
-        eventListProvider.getAllEvents();
-        Navigator.pop(context);
+        eventListProvider.getAllEvents(userProvider.currentUser!.id);
       });
+
+      Navigator.pop(context);
     }
   }
 

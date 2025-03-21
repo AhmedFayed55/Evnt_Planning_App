@@ -1,5 +1,6 @@
 import 'package:evnt_planning_app/model/event.dart';
 import 'package:evnt_planning_app/providers/event_list_provider.dart';
+import 'package:evnt_planning_app/providers/user_provider.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
 import 'package:evnt_planning_app/utils/app_styles.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class EventItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var eventListProvider = Provider.of<EventListProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     return Container(
@@ -84,7 +86,8 @@ class EventItemWidget extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     // todo: update favorite
-                    eventListProvider.updateFavoriteEvent(event);
+                    eventListProvider.updateFavoriteEvent(
+                        event, userProvider.currentUser!.id);
                   },
                   child: Icon(
                     event.isFavorite == true

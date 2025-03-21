@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../providers/user_provider.dart';
+
 class FavoriteTab extends StatelessWidget {
   const FavoriteTab({super.key});
 
@@ -16,8 +18,9 @@ class FavoriteTab extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var eventListProvider = Provider.of<EventListProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     if (eventListProvider.favoriteEventsList.isEmpty) {
-      eventListProvider.getFavoriteEvents();
+      eventListProvider.getFavoriteEvents(userProvider.currentUser!.id);
     }
     return SafeArea(
       child: Padding(

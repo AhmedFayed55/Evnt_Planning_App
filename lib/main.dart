@@ -1,7 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evnt_planning_app/providers/app_language_provider.dart';
 import 'package:evnt_planning_app/providers/app_theme_provider.dart';
 import 'package:evnt_planning_app/providers/event_list_provider.dart';
+import 'package:evnt_planning_app/providers/user_provider.dart';
 import 'package:evnt_planning_app/ui/auth/login/login_screen.dart';
 import 'package:evnt_planning_app/ui/auth/register/register_screen.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/add_event.dart';
@@ -20,11 +20,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseFirestore.instance.disableNetwork(); // todo: working offline
+  // await FirebaseFirestore.instance.disableNetwork(); // todo: working offline
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (context) => AppLanguageProvider()),
     ChangeNotifierProvider(create: (context) => AppThemeProvider()),
     ChangeNotifierProvider(create: (context) => EventListProvider()),
+    ChangeNotifierProvider(create: (context) => UserProvider()),
   ], child: MyApp()));
 }
 
@@ -39,7 +40,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       debugShowCheckedModeBanner: false,
-      initialRoute: AppRoutes.mainScreenRoute,
+      initialRoute: AppRoutes.loginScreenRoute,
       routes: {
         AppRoutes.mainScreenRoute: (context) => MainScreen(),
         AppRoutes.loginScreenRoute: (context) => LoginScreen(),

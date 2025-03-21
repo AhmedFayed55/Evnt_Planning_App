@@ -1,4 +1,5 @@
 import 'package:evnt_planning_app/providers/event_list_provider.dart';
+import 'package:evnt_planning_app/providers/user_provider.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/tab_event_widget.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
 import 'package:evnt_planning_app/utils/app_images.dart';
@@ -19,9 +20,10 @@ class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     var eventListProvider = Provider.of<EventListProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
     eventListProvider.getEventsNameList(context);
     if (eventListProvider.eventsList.isEmpty) {
-      eventListProvider.getAllEvents();
+      eventListProvider.getAllEvents(userProvider.currentUser!.id);
     }
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
@@ -52,7 +54,7 @@ class _HomeTabState extends State<HomeTab> {
                   style: AppStyles.regular14White,
                 ),
                 Text(
-                  "Ahmed Fayed",
+                  userProvider.currentUser!.name,
                   style: AppStyles.bold24White,
                 ),
               ],
@@ -111,7 +113,8 @@ class _HomeTabState extends State<HomeTab> {
                     length: eventListProvider.eventsNameList.length,
                     child: TabBar(
                         onTap: (index) {
-                          eventListProvider.changeSelectedIndex(index);
+                          eventListProvider.changeSelectedIndex(
+                              index, userProvider.currentUser!.id);
                         },
                         labelPadding: EdgeInsets.symmetric(
                             horizontal: width * .01, vertical: height * .02),

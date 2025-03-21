@@ -1,5 +1,7 @@
 import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
+import 'package:evnt_planning_app/firebase/firebase_utils.dart';
+import 'package:evnt_planning_app/providers/user_provider.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
 import 'package:evnt_planning_app/utils/app_images.dart';
 import 'package:evnt_planning_app/utils/app_routes.dart';
@@ -8,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 import '../../../custom_widgets/dialoug_utils.dart';
 
@@ -150,6 +153,14 @@ class _LoginScreenState extends State<LoginScreen> {
         final credential = await FirebaseAuth.instance
             .signInWithEmailAndPassword(
                 email: emailController.text, password: passwordController.text);
+        var user = await FirebaseUtils.readUserFromFireStore(
+            credential.user?.uid ?? "");
+        if (user == null) {
+          // user doesn't there in firestore => احتمال ضئيل يكون اتسجل في الauth بس حصل مشكلة في النت وملحقش يوصل فايرستور
+          return;
+        }
+        var userProvider = Provider.of<UserProvider>(context, listen: false);
+        userProvider.updateUser(user);
         //todo: hide loading
         DialogueUtils.hideLoading(context);
         //todo: show msg

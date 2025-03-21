@@ -1,5 +1,7 @@
 import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evnt_planning_app/custom_widgets/custom_text_field.dart';
+import 'package:evnt_planning_app/firebase/firebase_utils.dart';
+import 'package:evnt_planning_app/model/my_user.dart';
 import 'package:evnt_planning_app/utils/app_colors.dart';
 import 'package:evnt_planning_app/utils/app_images.dart';
 import 'package:evnt_planning_app/utils/app_routes.dart';
@@ -157,6 +159,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           email: emailController.text,
           password: passwordController.text,
         );
+        MyUser myUser = MyUser(
+            id: credential.user?.uid ?? "",
+            name: nameController.text,
+            email: emailController.text);
+        await FirebaseUtils.addUserToFireStore(myUser);
         //todo: hide loading
         DialogueUtils.hideLoading(context);
         //todo: show msg
