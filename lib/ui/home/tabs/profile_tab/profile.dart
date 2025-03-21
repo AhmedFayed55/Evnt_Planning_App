@@ -1,5 +1,6 @@
 import 'package:evnt_planning_app/custom_widgets/custom_elevated_button.dart';
 import 'package:evnt_planning_app/custom_widgets/dialoug_utils.dart';
+import 'package:evnt_planning_app/providers/event_list_provider.dart';
 import 'package:evnt_planning_app/utils/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 
 import '../../../../providers/app_language_provider.dart';
 import '../../../../providers/app_theme_provider.dart';
+import '../../../../providers/user_provider.dart';
 import '../../../../utils/app_colors.dart';
 import '../../../../utils/app_images.dart';
 import '../../../../utils/app_styles.dart';
@@ -20,10 +22,13 @@ class ProfileTab extends StatefulWidget {
 }
 
 class _ProfileTabState extends State<ProfileTab> {
+  late EventListProvider eventListProvider;
   @override
   Widget build(BuildContext context) {
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var userProvider = Provider.of<UserProvider>(context);
+    eventListProvider = Provider.of<EventListProvider>(context);
     var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -174,9 +179,10 @@ class _ProfileTabState extends State<ProfileTab> {
         posActionName: "Cancel",
         ngeActionName: "LOG OUT",
         posAction: () {
-          Navigator.of(context).pop();
+          Navigator.pop(context);
         },
         ngeAction: () {
+          eventListProvider.filteredList = [];
           Navigator.of(context).pushNamedAndRemoveUntil(
               AppRoutes.loginScreenRoute, (route) => false);
         });

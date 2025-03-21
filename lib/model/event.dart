@@ -20,9 +20,24 @@ class Event {
       this.isFavorite = false});
 
   // todo: json => object
-  Event.fromFireStore(Map<String, dynamic> data)
+  Event.fromFireStore(Map<String, dynamic>? data)
       : this(
-          id: data["id"] as String,
+          id: data?["id"] as String? ?? "",
+          eventName: data?["eventName"] as String? ?? "No Name",
+          title: data?["title"] as String? ?? "Untitled",
+          description: data?["description"] as String? ?? "No Description",
+          image: data?["image"] as String? ?? "",
+          date: data?["date"] != null
+              ? DateTime.fromMillisecondsSinceEpoch(data!["date"])
+              : DateTime.now(),
+          time: data?["time"] as String? ?? "00:00",
+          isFavorite: data?["isFavorite"] as bool? ?? false,
+        );
+
+  /*
+   Event.fromFireStore(Map<String, dynamic>? data)
+      : this(
+          id: data!["id"] as String,
           eventName: data["eventName"] as String,
           title: data["title"] as String,
           description: data["description"] as String,
@@ -32,6 +47,7 @@ class Event {
           time: data["time"],
           isFavorite: data["isFavorite"] as bool,
         );
+   */
 
   // todo: object => json
   Map<String, dynamic> toFireStore() {
