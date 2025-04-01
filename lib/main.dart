@@ -4,6 +4,7 @@ import 'package:evnt_planning_app/providers/event_list_provider.dart';
 import 'package:evnt_planning_app/providers/user_provider.dart';
 import 'package:evnt_planning_app/ui/auth/login/login_screen.dart';
 import 'package:evnt_planning_app/ui/auth/register/register_screen.dart';
+import 'package:evnt_planning_app/ui/event_map/1st/event_map.dart';
 import 'package:evnt_planning_app/ui/home/tabs/home_tab/add_event/add_event.dart';
 import 'package:evnt_planning_app/ui/home/tabs/main_screen/main_screen.dart';
 import 'package:evnt_planning_app/utils/app_routes.dart';
@@ -45,7 +46,8 @@ class MyApp extends StatelessWidget {
         AppRoutes.mainScreenRoute: (context) => MainScreen(),
         AppRoutes.loginScreenRoute: (context) => LoginScreen(),
         AppRoutes.registerScreenRoute: (context) => RegisterScreen(),
-        AppRoutes.addEventRoute: (context) => AddEvent()
+        AppRoutes.addEventRoute: (context) => AddEvent(),
+        AppRoutes.eventMapRoute: (_) => EventMap(),
       },
       locale: Locale(languageProvider.appLanguage),
       theme: AppTheme.lightTheme,
