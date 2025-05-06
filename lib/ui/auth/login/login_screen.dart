@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailController =
-      TextEditingController(text: "ahmed@gmail.com");
+      TextEditingController(text: "minawagdy@gmail.com");
 
   TextEditingController passwordController =
       TextEditingController(text: "123456");
@@ -156,7 +156,13 @@ class _LoginScreenState extends State<LoginScreen> {
         var user = await FirebaseUtils.readUserFromFireStore(
             credential.user?.uid ?? "");
         if (user == null) {
-          // user doesn't there in firestore => احتمال ضئيل يكون اتسجل في الauth بس حصل مشكلة في النت وملحقش يوصل فايرستور
+          DialogueUtils.hideLoading(context);
+          DialogueUtils.showMessage(
+            context: context,
+            message: "Login failed. User data not found in Firestore.",
+            title: "Error",
+            posActionName: "OK",
+          );
           return;
         }
         var userProvider = Provider.of<UserProvider>(context, listen: false);
