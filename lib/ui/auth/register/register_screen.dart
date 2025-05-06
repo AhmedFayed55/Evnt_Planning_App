@@ -18,10 +18,10 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  TextEditingController nameController = TextEditingController(text: "Ahmed");
+  TextEditingController nameController = TextEditingController(text: "Mina");
 
   TextEditingController emailController =
-      TextEditingController(text: "ahmed@gmail.com");
+      TextEditingController(text: "minawagdy@gmail.com");
 
   TextEditingController passwordController =
       TextEditingController(text: "123456");
