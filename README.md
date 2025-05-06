@@ -1,16 +1,23 @@
-# evnt_planning_app
+📱 Flutter Event Planning App Overview
 
-A new Flutter project.
+🚀 Features & Technologies Used
 
-## Getting Started
+✅ Firebase Firestore Integration
+Stored and managed all events in real-time using Firebase Firestore, enabling instant updates and cloud-based storage.
 
-This project is a starting point for a Flutter application.
+✅ Firebase Authentication
+Implemented secure user login and registration with Firebase Auth, including email/password and Google Sign-In.
+✅ State Management with Provider
+Used Provider for efficient state management, separating UI from logic and ensuring reactive updates.
 
-A few resources to get you started if this is your first Flutter project:
+✅ Google Maps Integration
+Integrated Google Maps to allow users to select event locations and view them directly within the app.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+✅ Light & Dark Theme Support
+Built-in support for both light and dark themes, allowing users to switch based on preference or system settings.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+✅ Localization (Arabic & English)
+Implemented full app localization to support multiple languages, enhancing accessibility and user experience.
+
+✅ Responsive UI Design
+Designed with responsive layouts to ensure a seamless experience across different devices and screen sizes.
